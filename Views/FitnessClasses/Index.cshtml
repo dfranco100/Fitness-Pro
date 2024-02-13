@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FitnessPro.Models.FitnessClass>
+@using FitnessPro.Services.Interfaces;
+
+@inject IImageService ImageService;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index/ MY CLASSES</h1>
+
+
+<div class="row">
+    <div class="col-12 text-end mb-2">
+        <a class="btn btn-primary rounded-pill" asp-action="Create">Create New</a>
+    </div>
+</div>
+    <div class="col-12 col-md-8">
+        <div class="row row-cols-1 g-3">
+            @foreach (var fitnessClass in Model)
+            {
+            <div class="col">
+                <div class="card mb-3 rounded-pill">
+                    <div class="row g-0">
+                        <div class="col-md-4 square-img-container">
+                            <img src= '@ImageService.ConvertByteArrayToFile(fitnessClass.ImageData!, fitnessClass.ImageType!)' class="square-img rounded-start" >
+                        </div>
+                        <div class="col-md-8">
+                                <div class="card-body">
+                                <span class="fw-bold heroTitle2 me-2">@Html.DisplayFor(modelItem => fitnessClass.Name) <span class="fw-bold heroTitle2">Class</span> </span>
+                                <div class="card-text pt-3">
+                                    @Html.DisplayFor(modelItem => fitnessClass.Description)
+                                </div>
+                                <div class="card-text">                                       
+                                        <span class="fw-bold me-2">Schedule:</span>@Html.DisplayFor(modelItem => fitnessClass.Schedule)
+                                </div>                                
+                                <div class="card-text">
+                                    <span class="fw-bold me-2">More info:</span>FitnessPro@email.com
+                                </div>
+                                <div class="fs-4 mt-5 ">
+                                        <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@fitnessClass.Id"><i class="bi bi-pencil-fill "></i></a>
+                                        <a class="me-3 editIcons" href="#"><i class="bi bi-envelope-fill "></i></a>
+                                    <a class="me-3 editIcons" asp-action="Delete" asp-route-id="@fitnessClass.Id" ><i class="bi bi-trash-fill text-danger "></i></a>                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+

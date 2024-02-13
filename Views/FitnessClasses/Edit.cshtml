@@ -1,0 +1,76 @@
+﻿@model FitnessPro.Models.FitnessClass
+@using FitnessPro.Services.Interfaces;
+@inject IImageService ImageService;
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>EDIT FITNESS CLASS</h1>
+
+
+<div class="p-3 border border-2 shadow-lg bg-light">
+   <form asp-action="Edit" asp-controller="FitnessClasses" enctype="multipart/form-data">
+        <div class="row g-3 p-2">
+            <input type="hidden" asp-for="Id"/>
+            <input type="hidden" asp-for="FitnessUserId"/>
+            <input type="hidden" asp-for="ImageData"/>
+            <input type="hidden" asp-for="ImageType" />
+            <div class="col-12 col-lg-4">
+                <div class="square-img-container">
+                    @if (Model.ImageData != null)
+                    {
+                        <img id="trainerImage" class="square-img" src="@ImageService.ConvertByteArrayToFile(Model.ImageData, Model.ImageType!)">
+                     }
+                     else
+                    {
+                        <img id="ClassImage" class="square-img" src="~/img/FitnessPro.png">
+                    }
+                </div>
+                <div>
+                    <label asp-for="ImageFile" class="form-label"></label>
+                    <input asp-for="ImageFile" class="form-control" accept=".png,.jpg,.jpeg,.gif" onchange="document.getElementById('ClassImage').src=window.URL.createObjectURL(this.files[0])" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <label asp-for="Schedule" class="control-label"></label>
+                        <input asp-for="Schedule" class="form-control" />
+                        <span asp-validation-for="Schedule" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 col-lg-6 mt-3">
+                        <label asp-for="Trainers" class="control-label"></label>
+                        <select name="TrainerList" class="form-control" asp-items="ViewBag.TrainerList" multiple></select>
+                    </div>
+                    <div class="col-12 col-lg-6 mt-3">
+                        <label asp-for="Clients" class="control-label"></label>
+                        <select name="ClientList" class="form-control" asp-items="ViewBag.ClientList" multiple></select>
+                    </div>
+                    <div class="form-group mt-3 text-lg-end">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+   </form> 
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

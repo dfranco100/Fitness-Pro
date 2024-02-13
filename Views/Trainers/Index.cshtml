@@ -1,0 +1,74 @@
+﻿@model IEnumerable<FitnessPro.Models.Trainer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index/ TRAINERS</h1>
+
+<div class="row">
+    <div class="col-12 text-end mb-2">
+        <a class="btn btn-primary rounded-pill" asp-action="Create">Create New</a>
+    </div>
+</div>
+
+<div class="row g-2 ">
+    <div class="col-12 col-md-4 sideNav">
+        <form asp-action="searchTrainers" asp-controller="Trainers">
+            <div class="input-group">
+                <input class="form-control" type="search" name="SearchString"
+                       placeholder="Search Term" />
+                <input type="submit" class="btn btn-outline-primary" value="Search" />
+            </div>
+        </form>
+        <form asp-action="Index" asp-controller="Trainers">
+            <div class="mt-5">
+                <label class="form-label fw-bold">FITNESS CLASSES FILTER</label>
+                <select name="FitnessClassId" asp-items="@ViewBag.FitnessClassId" class="form-control"
+                        onchange="this.form.submit()" onmousedown="if(this.options.length>8){this.size=8;}" onblur="this.size=0;">
+                    <option>All Classes</option>
+                </select>
+
+            </div>
+        </form>
+    </div>
+   
+<div class="col-12 col-md-8 ">
+<div class="row row-cols-1 g-3">
+    @foreach (var trainer in Model)
+    {
+        <div class="col">
+                <div class="card mb-3 rounded-pill">
+                <div class="row g-0">
+                <div class="col-md-4 square-img-container">
+                     <img src="/img/coaches.jpg" class="square-img rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                   <span class="fw-bold heroTitle2 me-2"> @Html.DisplayFor(modelItem => trainer.FullName) </span>
+                     <div class="card-text">
+                     <span class="texthighlight me-2"> @Html.DisplayFor(modelItem => trainer.Certification) Trainer</span>
+                    </div>
+                    <div class="card-text pt-3">
+                      <span class="fw-bold heroTitle2 me-2"> @Html.DisplayFor(modelItem => trainer.LastName)</span><span class="me-2">is a professional @Html.DisplayFor(modelItem => trainer.Certification) <span>trainer</span></span><br>
+                     <span class ="me-2">with</span><span class="fw-bold">@Html.DisplayFor(modelItem => trainer.Experience)</span> <span class="me-2">years of experience.</span>
+                    </div>
+                    <div class="fs-2 mt-5 ">
+                        <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@trainer.Id"><i class="bi bi-pencil-fill "></i></a>
+                        <a class="me-3 editIcons" href="#"><i class="bi bi-envelope-fill "></i></a>
+                        <a class="me-3 editIcons" asp-action="Delete" asp-route-id="@trainer.Id"><i class="bi bi-trash-fill text-danger "></i></a>
+                    </div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>                
+    }
+</div>
+</div>
+
+
+ </div>
+
+
